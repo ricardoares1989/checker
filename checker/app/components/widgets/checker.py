@@ -4,11 +4,14 @@ from datetime import date
 
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
 
 from .inputregister import InputRegister
 from .saver import Saver
 from .counter import Counter
 from .checks import Checks, Register
+from .deletepopup import DeletePopUp
 
 class Checker(FloatLayout):
     """ this class has the input register widget counter and
@@ -37,6 +40,8 @@ class Checker(FloatLayout):
             text = self.text_input.text
             register = Register()
             register.ids.register_label.text = text
+            register_id = register.ids.register_label.data_id = text
+            register.ids.delete_register.bind(on_press=self.delete_register)
             if int(text) in self.asistance:
                 pass
             else:
@@ -62,3 +67,11 @@ class Checker(FloatLayout):
         writer = csv.writer(outfile)
         writer.writerows(map(lambda x: [x], data))
         outfile.close()
+
+    def delete_register(self, obj):   
+        number = obj.parent.ids.register_label.text
+        delete_popup = DeletePopUp(checker=self, asistance=self.asistance, register=obj.parent, auto_dismiss=False)
+        delete_popup.title = "Borrar registro"
+        delete_popup.size_hint = (None, None)
+        delete_popup.size = (300, 300)
+        delete_popup.open()
