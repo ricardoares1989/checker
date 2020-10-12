@@ -1,4 +1,9 @@
 #:import Hex kivy.utils.get_color_from_hex
+#:import dark_contrast app.settings.styles.dark_contrast
+#:import dark_contrast_2 app.settings.styles.dark_contrast_2
+#:import light_contrast app.settings.styles.light_contrast
+#:import light_contrast_2 app.settings.styles.light_contrast_2
+#:import alert_color app.settings.styles.alert_color
 <MainScreenWidget>
     canvas.before:
         Color:
@@ -7,10 +12,97 @@
             pos: self.pos
             size: self.size
 
-<Checks@FloatLayout>
-    
+<Header@FloatLayout>:
+    size_hint: 1, .12
+    pos_hint: {"x": 0, "y": .9 }
+    canvas.before:
+        Color:
+            rgba: .21, .70, .29, .26
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    FloatLayout:
+        size_hint: .2, 1
+        pos_hint: {"x": 0, "y": 0 }
+        Image:
+            pos_hint: {"x": 0, "y": 0 }
+            size_hint: .8,.8
+            source: 'app/settings/assets/logo_farmex.png'
+    FloatLayout:
+        pos_hint: {"x": .2, "y": 0}
+        size_hint: .8, 1
+        Label:
+            pos_hint: {"x": 0, "y": 0 }
+            size_hint: .8,.8
+            text: "Entrada A"
+            font_size: 80
+            color: Hex(dark_contrast_2)
 
-<Register@FloatLayout>
+<Counter@FloatLayout>
+    id: counter_container
+    size_hint: .28, .08
+    pos_hint: {"x": .57, "y": .75 }
+    Label:
+        id: counter
+        pos_hint: {"x": 0, "y": 0 }
+        size_hint: 1,1
+        text: "250"
+        font_size: 80
+        color: Hex(dark_contrast)
+<RegisterBackgroundColor@Widget>
+    background_color: .98, .69, .25, .5
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<RegisterLabel@Label+RegisterBackgroundColor>
+
+<Register@BoxLayout>
+    orientation: 'horizontal'
+    spacing: 8
+    padding: 4
+    size_hint: .42, .33 
+    RegisterLabel:
+        size_hint_x: .8
+        text: "40"
+        font_size: 50
+        color: Hex(dark_contrast_2)
+    Button:
+        size_hint_x: .2
+        text: "X"
+        font_size: 50
+        background_normal: ""
+        background_color: alert_color
+
+
+<Checks@GridLayout>:
+    cols: 1
+    rows: 4
+    size_hint: .42, .33
+    pos_hint: {"x": .14, "y": .5 }
+
+<InputRegister@TextInput>
+    size_hint: .33, .08
+    pos_hint: {"x": .14, "y": .42 }
+    id: register
+    multiline: False
+    input_filter: "int"
+    font_size: 40
+    background_color: .21, .70, .29, .26
+
+<Checker@FloatLayout>
+    Counter:
+    Checks:
+        id: checks
+    InputRegister:
+
+
+
+
+<Saver@FloatLayout>
     Button:
         id: guardado
         size_hint: .28, .08
@@ -19,7 +111,8 @@
         font_size: 18
         foreground_color: Hex("#FFFFFF")
         text: "Registrar"
-        background_color: Hex("#FF9800")
+        background_normal: ""
+        background_color: Hex(dark_contrast)
     Button:
         id: guardar_excel
         size_hint: .28, .08
@@ -28,4 +121,5 @@
         font_size: 18
         foreground_color: Hex("#FFFFFF")
         text: "Generar Excel"
-        background_color: Hex("#056839")
+        background_normal: ""
+        background_color: Hex(dark_contrast_2)

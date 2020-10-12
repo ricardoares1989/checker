@@ -7,6 +7,7 @@ from kivy.app import App
 from kivy.config import Config
 from kivy.lang import Builder
 from .screenmanagers.mainscreen import MainScreenWidget
+from .widgets.inputregister import InputRegister
 
 #Screen start config
 Config.set("graphics", "height", "800")
