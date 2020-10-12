@@ -46,9 +46,10 @@
         id: counter
         pos_hint: {"x": 0, "y": 0 }
         size_hint: 1,1
-        text: "250"
+        text: "0"
         font_size: 80
         color: Hex(dark_contrast)
+
 <RegisterBackgroundColor@Widget>
     background_color: .98, .69, .25, .5
     canvas.before:
@@ -64,10 +65,10 @@
     orientation: 'horizontal'
     spacing: 8
     padding: 4
-    size_hint: .42, .33 
+    size_hint: .42, .33
     RegisterLabel:
+        id: register_label
         size_hint_x: .8
-        text: "40"
         font_size: 50
         color: Hex(dark_contrast_2)
     Button:
@@ -76,7 +77,6 @@
         font_size: 50
         background_normal: ""
         background_color: alert_color
-
 
 <Checks@GridLayout>:
     cols: 1
@@ -87,24 +87,15 @@
 <InputRegister@TextInput>
     size_hint: .33, .08
     pos_hint: {"x": .14, "y": .42 }
-    id: register
+    id: text_input
     multiline: False
     input_filter: "int"
     font_size: 40
     background_color: .21, .70, .29, .26
 
-<Checker@FloatLayout>
-    Counter:
-    Checks:
-        id: checks
-    InputRegister:
-
-
-
-
 <Saver@FloatLayout>
     Button:
-        id: guardado
+        id: save
         size_hint: .28, .08
         pos_hint: {"x": .14,"y": .33 }
         font_name: "arial"
@@ -114,7 +105,7 @@
         background_normal: ""
         background_color: Hex(dark_contrast)
     Button:
-        id: guardar_excel
+        id: export
         size_hint: .28, .08
         pos_hint: {"x": .57,"y": .33 }
         font_name: "arial"
@@ -123,3 +114,13 @@
         text: "Generar Excel"
         background_normal: ""
         background_color: Hex(dark_contrast_2)
+
+
+# <Checker@FloatLayout>:
+
+# <Checker>
+#     Counter:
+#     Checks:
+#         id: checks
+#     InputRegister:
+#     Saver:
