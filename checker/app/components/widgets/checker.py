@@ -1,6 +1,7 @@
 """ Checker is the main widger, that do it all the interaction."""
 import csv
 from datetime import date
+import os
 
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
