@@ -36,17 +36,17 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,csv
+requirements = python3,kivy
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/logo_farmex.png
+presplash.filename = %(source.dir)s/data/logo_farmex.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/data/logo_farmex.png
+icon.filename = %(source.dir)s/data/logo_farmex.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
