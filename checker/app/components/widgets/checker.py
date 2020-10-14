@@ -7,6 +7,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
+from android.storage import primary_external_storage_path
 
 from .inputregister import InputRegister
 from .saver import Saver
@@ -58,19 +59,18 @@ class Checker(FloatLayout):
 
     def _update_counter(self):
         self.counter.ids.counter.text = str(len(self.asistance))
+
     def _app_dir(self):
-        application = App.get_running_app()
-        root_dir = application.user_data_dir
-        export_dir = path.split(path.split(root_dir)[0])
-        return export_dir[0]
+        return primary_external_storage_path()
 
     def export_data(self, *args, **kwargs):
         data = self.asistance
         data.sort()
         today = date.today()
         export_dir = self._app_dir()
+        print(export_dir)
         string_today = today.strftime("%d%B%Y")
-        outfile = open(f"{export_dir}/asistance{string_today}.csv", "w", newline="")
+        outfile = open(f"{export_dir}/download/asistance{string_today}.csv", "w", newline="")
         writer = csv.writer(outfile)
         writer.writerows(map(lambda x: [x], data))
         outfile.close()

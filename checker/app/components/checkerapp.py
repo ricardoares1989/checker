@@ -1,7 +1,6 @@
 """ Main app."""
 
 #Kivy config
-
 from kivy.uix.label import Label
 from kivy.app import App
 from kivy.config import Config
