@@ -69,7 +69,6 @@ class Checker(FloatLayout):
         data.sort()
         today = date.today()
         export_dir = self._app_dir()
-        print(export_dir)
         string_today = today.strftime("%d%B%Y")
         outfile = open(f"{export_dir}/asistance{string_today}.csv", "w", newline="")
         writer = csv.writer(outfile)
