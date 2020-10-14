@@ -86,43 +86,82 @@
     size_hint: .42, .33
     pos_hint: {"x": .14, "y": .5 }
 
-<InputRegister@TextInput>
-    size_hint: .33, .08
-    pos_hint: {"x": .14, "y": .42 }
+<KeyboardButton@Button>
+    foreground_color: Hex("#FFFFFF")
+    background_normal: ""
+    background_color: Hex("#36B54A")
+    font_size: 30
+
+<InputLabel@RegisterBackgroundColor+Label>
+    background_color: Hex("#36B54A")
+
+<InputRegister@FloatLayout>
+    size_hint: .9, .08
+    pos_hint: {"x": .07, "y": .37 }
     id: text_input
-    multiline: False
-    input_filter: "int"
-    font_size: 40
-    background_color: .21, .70, .29, .26
+    InputLabel:
+        id: text_label
+        pos_hint: {"x": .05, "y": .42 }
+        size_hint: .4,1
+        font_size: 40
+    KeyboardButton:
+        size_hint: .4,1
+        pos_hint: {"x": .5, "y": .42 }
+        id: undo
+        text: "borrar"
 
 <Saver@FloatLayout>
-    Button:
-        id: save
-        size_hint: .28, .08
-        pos_hint: {"x": .14,"y": .33 }
-        font_name: "arial"
-        font_size: 18
-        foreground_color: Hex("#FFFFFF")
-        text: "Registrar"
-        background_normal: ""
-        background_color: Hex(dark_contrast)
-    Button:
-        id: export
-        size_hint: .28, .08
-        pos_hint: {"x": .57,"y": .33 }
-        font_name: "arial"
-        font_size: 18
-        foreground_color: Hex("#FFFFFF")
-        text: "Generar Excel"
-        background_normal: ""
-        background_color: Hex(dark_contrast_2)
-
-
-# <Checker@FloatLayout>:
-
-# <Checker>
-#     Counter:
-#     Checks:
-#         id: checks
-#     InputRegister:
-#     Saver:
+    size_hint: 1, .4
+    pos_hint: {"x": 0, "y": 0}
+    GridLayout:
+        id: grid
+        cols: 3
+        rows: 4
+        spacing: 5
+        padding: 5
+        KeyboardButton:
+            id: seven
+            text: "7"
+        KeyboardButton:
+            id: eight
+            text: "8"
+        KeyboardButton:
+            id: nine
+            text: "9"
+        KeyboardButton:
+            id: four
+            text: "4"
+        KeyboardButton:
+            id: five
+            text: "5"
+        KeyboardButton:
+            id: six
+            text: "6"
+        KeyboardButton:
+            id: one
+            text: "1"
+        KeyboardButton:
+            id: two
+            text: "2"
+        KeyboardButton:
+            id: three
+            text: "3"
+        Button:
+            id: save
+            size_hint: .28, .08
+            font_size: 18
+            foreground_color: Hex("#FFFFFF")
+            text: "Registrar"
+            background_normal: ""
+            background_color: Hex(dark_contrast)
+        KeyboardButton:
+            id: zero
+            text: "0"
+        Button:
+            id: export
+            size_hint: .28, .08
+            font_size: 18
+            foreground_color: Hex("#FFFFFF")
+            text: "Generar Excel"
+            background_normal: ""
+            background_color: Hex(dark_contrast_2)

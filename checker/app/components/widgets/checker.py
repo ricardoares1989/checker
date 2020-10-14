@@ -1,8 +1,8 @@
 """ Checker is the main widger, that do it all the interaction."""
 import csv
 from datetime import date
-import os
-
+from os import path
+from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -38,7 +38,7 @@ class Checker(FloatLayout):
 
     def get_check(self, *args, **kwargs):
         try:
-            text = self.text_input.text
+            text = self.text_input.ids.text_label.text
             register = Register()
             register.ids.register_label.text = text
             register_id = register.ids.register_label.data_id = text
@@ -51,27 +51,38 @@ class Checker(FloatLayout):
                     self.checks.remove_widget(first_child)
                 self.checks.add_widget(register)
                 self.asistance.append(int(text))
-            self.text_input.text = ""
+            self.text_input.ids.text_label.text = ""
             self._update_counter()
         except ValueError:
             print("Bad register")
 
     def _update_counter(self):
         self.counter.ids.counter.text = str(len(self.asistance))
+    def _app_dir(self):
+        application = App.get_running_app()
+        root_dir = application.user_data_dir
+        export_dir = path.split(path.split(root_dir)[0])
+        return export_dir[0]
 
     def export_data(self, *args, **kwargs):
         data = self.asistance
         data.sort()
         today = date.today()
+        export_dir = self._app_dir()
+        print(export_dir)
         string_today = today.strftime("%d%B%Y")
-        outfile = open(f"asistance{string_today}.csv", "w", newline="")
+        outfile = open(f"{export_dir}//asistance{string_today}.csv", "w", newline="")
         writer = csv.writer(outfile)
         writer.writerows(map(lambda x: [x], data))
         outfile.close()
 
     def delete_register(self, obj):   
         number = obj.parent.ids.register_label.text
-        delete_popup = DeletePopUp(checker=self, asistance=self.asistance, register=obj.parent, auto_dismiss=False)
+        delete_popup = DeletePopUp(checker=self, 
+            asistance=self.asistance, 
+            register=obj.parent, 
+            auto_dismiss=False
+        )
         delete_popup.title = "Borrar registro"
         delete_popup.size_hint = (None, None)
         delete_popup.size = (300, 300)
