@@ -1,6 +1,6 @@
 """ Checker is the main widger, that do it all the interaction."""
 import csv
-from datetime import date
+from datetime import datetime
 from os import path
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
@@ -8,6 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from android.storage import primary_external_storage_path
+from kivy.uix.popup import Popup
 
 from .inputregister import InputRegister
 from .saver import Saver
@@ -25,7 +26,8 @@ class Checker(FloatLayout):
         save_export = Saver()
         counter = Counter()
         checks = Checks()
-        self.asistance = []
+        self.counter_text = 0
+        self.asistance = self._asistance_dict()
         self.add_widget(text_input)
         self.add_widget(save_export)
         self.add_widget(counter)
@@ -36,44 +38,73 @@ class Checker(FloatLayout):
         self.checks = self.children[0]
         self.save_export.ids.save.bind(on_press=self.get_check)
         self.save_export.ids.export.bind(on_press=self.export_data)
+    
+    def _asistance_dict(self):
+        dictionary = {}
+        for i in range(0, 10000):
+            dictionary[i] = False
+        return dictionary
 
     def get_check(self, *args, **kwargs):
+        asistance = self.asistance
         try:
             text = self.text_input.ids.text_label.text
             register = Register()
             register.ids.register_label.text = text
             register_id = register.ids.register_label.data_id = text
             register.ids.delete_register.bind(on_press=self.delete_register)
-            if int(text) in self.asistance:
+            if asistance[int(text)]:
                 pass
             else:
                 if len(self.checks.children) >= 4:
                     first_child = self.checks.children[3]
                     self.checks.remove_widget(first_child)
                 self.checks.add_widget(register)
-                self.asistance.append(int(text))
+                self.asistance[int(text)] = True
+                self._update_counter()
             self.text_input.ids.text_label.text = ""
-            self._update_counter()
         except ValueError:
             print("Bad register")
 
-    def _update_counter(self):
-        self.counter.ids.counter.text = str(len(self.asistance))
+    def _update_counter(self, delete=False):
+        if delete:
+            self.counter_text -= 1
+        else:
+            self.counter_text += 1
+        self.counter.ids.counter.text = str(self.counter_text)
 
     def _app_dir(self):
         return primary_external_storage_path()
+    
+    def transform_data_dict(self, data_dict):
+        array_data = []
+        for key, value in data_dict.items():
+            if value:
+                array_data.append(key)
+        return array_data
 
     def export_data(self, *args, **kwargs):
-        data = self.asistance
+        data_dict = self.asistance
+        data = self.transform_data_dict(data_dict)
         data.sort()
-        today = date.today()
+        today = datetime.now()
         export_dir = self._app_dir()
-        print(export_dir)
-        string_today = today.strftime("%d%B%Y")
+        string_today = today.strftime("%d_%m_%y_%X")
         outfile = open(f"{export_dir}/download/asistance{string_today}.csv", "w", newline="")
         writer = csv.writer(outfile)
         writer.writerows(map(lambda x: [x], data))
         outfile.close()
+        box = BoxLayout(orientation='vertical')
+        box.add_widget(Label(
+            text=f"""Tu archivo se encuentra en 
+                    {export_dir}/download
+                """
+            )
+        )
+        popup = Popup(auto_dismiss=True, content=box)
+        popup.title = "Exportación correcta"
+        popup.size_hint = (.8, 0.2)
+        popup.open()
 
     def delete_register(self, obj):   
         number = obj.parent.ids.register_label.text
@@ -83,6 +114,5 @@ class Checker(FloatLayout):
             auto_dismiss=False
         )
         delete_popup.title = "Borrar registro"
-        delete_popup.size_hint = (None, None)
-        delete_popup.size = (300, 300)
+        delete_popup.size_hint = (.9, .2)
         delete_popup.open()

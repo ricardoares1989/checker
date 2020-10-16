@@ -19,5 +19,5 @@ class Saver(FloatLayout):
     def get_text(self, value):
         checker = self.parent
         input_wid = checker.text_input.ids.text_label
-        if len(input_wid.text) < 6:
+        if len(input_wid.text) < 4:
             input_wid.text += value.text

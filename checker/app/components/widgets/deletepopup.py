@@ -22,8 +22,8 @@ class DeletePopUp(Popup):
     def delete_data(self, obj):
         checks = self.register.parent
         number = int(self.register.ids.register_label.text)
-        index = self.asistance.index(number)
-        self.asistance.pop(index)
+        if self.asistance[number]:
+            self.asistance[number] = False
         checks.remove_widget(self.register)
-        self.checker._update_counter()
+        self.checker._update_counter(delete=True)
         self.dismiss()
